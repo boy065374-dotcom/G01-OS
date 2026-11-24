@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>G01 OS</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#020502;color:#00ff66;
+ font-family:monospace;overflow:hidden;
+}
+canvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1}
+.brand{
+ position:absolute;top:38%;width:100%;
+ text-align:center;
+}
+.logo{
+ font-size:clamp(75px,15vw,150px);
+ font-weight:bold;
+ text-shadow:0 0 15px #00ff66,0 0 45px #00ff66;
+}
+h2{letter-spacing:8px}
+p{color:#8affad}
+.start{
+ position:absolute;bottom:30px;left:50%;
+ transform:translateX(-50%);
+ padding:13px 35px;border:1px solid #00ff66;
+ background:#001b09;color:#00ff66;
+ font-size:19px;cursor:pointer;
+ box-shadow:0 0 18px #00ff6655;
+}
+.menu{
+ display:none;position:absolute;bottom:90px;left:50%;
+ transform:translateX(-50%);
+ width:270px;padding:20px;
+ background:#001407;border:1px solid #00ff66;
+ box-shadow:0 0 25px #00ff6644;
+}
+.menu button{
+ display:block;width:100%;padding:12px;
+ margin:5px 0;background:#00230d;
+ border:1px solid #075b28;color:#00ff66;
+ text-align:left;cursor:pointer;
+}
+.taskbar{
+ position:absolute;bottom:0;width:100%;
+ padding:12px;text-align:center;
+ border-top:1px solid #00ff66;
+ background:#001006;
+}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+
+<div class="brand">
+ <div class="logo">G01</div>
+ <h2>GREEN ZERO ONE</h2>
+ <p>OPERATING SYSTEM</p>
+ <p>THINK BEYOND. BUILD BEYOND.</p>
+</div>
+
+<div class="menu" id="menu">
+ <h2>G01 MENU</h2>
+ <button>▣ Applications</button>
+ <button>▤ File Manager</button>
+ <button>⌘ Terminal</button>
+ <button>⚙ Settings</button>
+ <button>◉ About G01 OS</button>
+</div>
+
+<button class="start" onclick="
+ const m=document.getElementById('menu');
+ m.style.display=m.style.display==='block'?'none':'block';
+">◈ START</button>
+
+<div class="taskbar">G01 OS // VERSION 0.1 ALPHA</div>
+
+<script>
+const c=document.getElementById('matrix');
+const ctx=c.getContext('2d');
+let drops=[];
+function resize(){
+ c.width=innerWidth;
+ c.height=innerHeight;
+ drops=Array(Math.ceil(c.width/17)).fill(1);
+}
+resize();
+window.addEventListener('resize',resize);
+
+function draw(){
+ ctx.fillStyle='rgba(0,5,2,0.12)';
+ ctx.fillRect(0,0,c.width,c.height);
+ ctx.fillStyle='#00ff66';
+ ctx.font='15px monospace';
+ drops.forEach((y,i)=>{
+  ctx.fillText(Math.random()>.5?'1':'0',i*17,y*17);
+  if(y*17>c.height&&Math.random()>.975)drops[i]=0;
+  drops[i]++;
+ });
+ requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
